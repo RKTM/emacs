@@ -6,7 +6,7 @@
  '(current-language-environment "Japanese")
  '(custom-enabled-themes (quote (wombat)))
  '(show-paren-mode t)
- '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify))))
+ '(text-mode-hook (quote (text-mode-hook-identify))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -17,10 +17,13 @@
 ;; global
 (global-set-key (kbd "<f6>") 'sr-speedbar-toggle)
 
+(setq-default tab-width 2 indent-tabs-mode nil)
 
 ;; region overwrite
 (delete-selection-mode 1)
 
+;;; .#* ã¨ã‹ã®ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œã‚‰ãªã„
+(setq auto-save-default nil)
 
 ;; speedbar
 (add-to-list 'load-path "~/.emacs.d/lib/speedbar")
@@ -35,8 +38,8 @@
 (require 'tabbar)
 (tabbar-mode)
 (setq tabbar-buffer-groups-function nil)
-(global-set-key "\M-[" 'tabbar-backward) ; Á°¤Î¥¿¥Ö
-(global-set-key "\M-]" 'tabbar-forward)  ; ¼¡¤Î¥¿¥Ö
+(global-set-key "\M-[" 'tabbar-backward) ; å‰ã®ã‚¿ãƒ–
+(global-set-key "\M-]" 'tabbar-forward)  ; æ¬¡ã®ã‚¿ãƒ–
 
 (defun my-tabbar-buffer-list ()
   (delq nil
@@ -46,8 +49,8 @@
                      ((eq (current-buffer) b) b)
                      ((buffer-file-name b) b)
                      ((char-equal ?\  (aref (buffer-name b) 0)) nil)
-		     ((equal "*scratch*" (buffer-name b)) b) ; *scratch*¥Ğ¥Ã¥Õ¥¡¤ÏÉ½¼¨¤¹¤ë
-		     ((char-equal ?* (aref (buffer-name b) 0)) nil) ; ¤½¤ì°Ê³°¤Î * ¤Ç»Ï¤Ş¤ë¥Ğ¥Ã¥Õ¥¡¤ÏÉ½¼¨¤·¤Ê¤¤
+		     ((equal "*scratch*" (buffer-name b)) b) ; *scratch*ãƒãƒƒãƒ•ã‚¡ã¯è¡¨ç¤ºã™ã‚‹
+		     ((char-equal ?* (aref (buffer-name b) 0)) nil) ; ãã‚Œä»¥å¤–ã® * ã§å§‹ã¾ã‚‹ãƒãƒƒãƒ•ã‚¡ã¯è¡¨ç¤ºã—ãªã„
                      ((buffer-live-p b) b)))
                 (buffer-list))))
 (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
@@ -57,7 +60,7 @@
 (require 'mozc)
 (set-language-environment "Japanese")
 (setq default-input-method "japanese-mozc")
-(setq mozc-candidate-style 'overlay)
+(setq mozc-candidate-style 'echo-area)
 
 ;; auto-pair
 (add-to-list 'load-path "~/.emacs.d/lib/autopair")
@@ -85,3 +88,6 @@
 (add-to-list 'load-path "~/.emacs.d/lib/typescript/")
 (autoload 'typescript-mode "typescript-mode" nil t)
 (add-to-list 'auto-mode-alist '("\.ts$" . typescript-mode))
+
+;; default encoding
+(set-default-coding-systems 'utf-8)
